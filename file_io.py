@@ -7,11 +7,9 @@ class DataTypeError(Exception):
         return 'file_io.py: Wrong Data Values Type.'
 
 class New_Dict_File():
-    def __init__(self, file_name):
+    def __init__(self, file_name, init_data=None):
         self.file_name = file_name
-        with open(self.file_name, mode='r', encoding='utf-8') as input_file:
-            self.data = json.load(input_file)
-            input_file.close()
+        self.read()
 
     def __call__(self):
         return self.data
