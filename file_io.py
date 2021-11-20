@@ -14,23 +14,36 @@ class SampleFileError(Exception):
         return "file_io.py: Sample file doesn't exist"
 
 class New_File():
-    def __init__(self, file_name, init_data=None):
+    def __init__(self, file_name: str, init_data=None):
         self.file_name = file_name
+        if init_data != None:
+            self.sample_data = init_data
+        else:
+            self.read(sample_data=True)
         self.read()
 
     def __call__(self):
         return self.data
 
-    def save(self):
-        try:
-            temp_data = json.dump(self.data, indent=4, separators=(',', ': '), sort_keys=False)
-            with open(self.file_name, mode='w', encoding='utf-8') as input_file:
-                input_file.write(temp_data)
-                input_file.close()
-        except:
-            raise DataTypeError
+    def save(self, sample_data: bool=False):
+        if sample_data:
+            try:
+                temp_data = json.dump(self.sample_data, indent=4, separators=(',', ': '), sort_keys=False)
+                with open(f'sample-{self.file_name}', mode='w', encoding='utf-8') as output_file:
+                    output_file.write(temp_data)
+                    output_file.close()
+            except:
+                raise DataTypeError
+        else:
+            try:
+                temp_data = json.dump(self.data, indent=4, separators=(',', ': '), sort_keys=False)
+                with open(self.file_name, mode='w', encoding='utf-8') as output_file:
+                    output_file.write(temp_data)
+                    output_file.close()
+            except:
+                raise DataTypeError
 
-    def read(self, sample_data=False):
+    def read(self, sample_data: bool=False):
         if sample_data:
             if isfile(f'sample-{self.file_name}'):
                 try:
