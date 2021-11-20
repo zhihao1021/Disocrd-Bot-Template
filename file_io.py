@@ -18,6 +18,7 @@ class New_File():
         self.file_name = file_name
         if init_data != None:
             self.sample_data = init_data
+            self.save(sample_data=True)
         else:
             self.read(sample_data=True)
         self.read()
